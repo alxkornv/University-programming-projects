@@ -2,8 +2,10 @@
 #include <string>
 #include <utility>
 #include <vector>
-int lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);
-
+#include <algorithm>
+void lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);
+void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec);
+bool MyCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2);
 int main()
 {
 	const char * const strProgramName = "Histogramer 1.0";
@@ -24,7 +26,7 @@ int main()
     std::vector<std::pair<std::string,int>> MyVec;
     lab1task(str,MyVec);
 
-
+    MyVecSort(MyVec);
 	InitHistogram(myBarChart);
     for(int i=0;i<MyVec.size();i++)
     {
@@ -40,7 +42,7 @@ int main()
 	return 0;
 }
 
-int lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
+void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
 {
     size_t found=std::string::npos;
     char temp;
@@ -74,5 +76,13 @@ int lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
     }
 
 
-    return 0;
+
+}
+bool MyCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2)
+{
+    return p1.second<p2.second;
+}
+void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec)
+{
+    std::sort(MyVec.begin(),MyVec.end(),MyCompare);
 }

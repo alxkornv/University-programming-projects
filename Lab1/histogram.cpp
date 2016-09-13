@@ -68,3 +68,7 @@ void AddBar(Histogram &historgam, const char *strName){
 	historgam.Bars = newBars;
 }
 
+void SortByVal (Histogram &historgam, bool bAscending )
+{
+    /*Создать вектор пар, записать в него значения из структуры использовать сорт. старым полям присвоить новые значения из отсортированного вектора*/
+}
