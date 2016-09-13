@@ -2,7 +2,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-int lab1task(std::string,std::vector<std::pair<char,int>> &MyVec);
+int lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);
 
 int main()
 {
@@ -15,23 +15,23 @@ int main()
 	std::cout << std::setfill('*') << std::setw(strlen(strProgramName)+4) << "" << std::endl << std::endl;
 
 	Histogram myBarChart;
-    std::string str="AojoAiojOytliIiuhgIJHUHtU";
+    std::string str="HHHoPLL";
     //std::cout<<"Enter string >> ";
     //std::cin>>str;
     std::cout<<str<<std::endl;
 
 
-    std::vector<std::pair<char,int>> MyVec;
+    std::vector<std::pair<std::string,int>> MyVec;
     lab1task(str,MyVec);
 
 
 	InitHistogram(myBarChart);
     for(int i=0;i<MyVec.size();i++)
     {
-        BarName=MyVec.at(i).first;
+
         for(int j=0;j<MyVec.at(i).second;j++)
         {
-            AddBlock(myBarChart,BarName.c_str());
+            AddBlock(myBarChart,MyVec.at(i).first.c_str());
         }
     }
 	PrintHistogram(myBarChart);
@@ -40,16 +40,17 @@ int main()
 	return 0;
 }
 
-int lab1task (std::string str,std::vector<std::pair<char,int>> &MyVec)
+int lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
 {
     size_t found=std::string::npos;
     char temp;
-
+    std::string t;
     for(int i=0;i<str.length();i++)
     {
         if(str[i]>='A' && str[i]<='Z')
         {
-            MyVec.push_back(std::make_pair(str[i],1));
+            t=str[i];
+            MyVec.push_back(std::make_pair(t,1));
             temp=str[i];
             str.erase(str.begin()+i);
             do
