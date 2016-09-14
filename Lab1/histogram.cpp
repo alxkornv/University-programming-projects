@@ -23,8 +23,17 @@ void AddBlock(Histogram &historgam, const char *strName){
 //-----------------------------------------------------------------
 // Функция PrintHistogram выводит гистограму на экран.
 void PrintHistogram(const Histogram &historgam){
+    int maxStrLen=strlen(historgam.BarNames[0]);
+    for(int i=1; i<historgam.nBarsSize; i++)
+    {
+        if(strlen(historgam.BarNames[i])>maxStrLen)
+        {
+            maxStrLen=strlen(historgam.BarNames[i]);
+        }
+    }
 	for(int i=0; i<historgam.nBarsSize; i++){
-		cout << historgam.BarNames[i] << '|';
+        std::cout.width(maxStrLen);
+		cout <<setfill(' ')<<std::left<<historgam.BarNames[i] << '|';
 		//cout.setf
 		cout << setfill(historgam.chBlock) << setw(10*historgam.Bars[i]/historgam.nMaxBar) << "" << /*ends <<*/ endl;
 	}

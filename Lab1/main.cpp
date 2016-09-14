@@ -36,6 +36,9 @@ int main()
             AddBlock(myBarChart,MyVec.at(i).first.c_str());
         }
     }
+    AddBlock(myBarChart,"AAA");
+    AddBlock(myBarChart,"AAAaaaa");
+
 	PrintHistogram(myBarChart);
 	DestroyHistogram(myBarChart);
 
