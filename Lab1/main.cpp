@@ -1,8 +1,5 @@
 #include "histogram.h"
-#include <string>
-#include <utility>
-#include <vector>
-#include <algorithm>
+
 void lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);//Функция сбора данных для гистограммы
 void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec,bool bAscending=true);//Функция сортировки данных
 //Вспомогательные функции для работы std::sort
@@ -41,8 +38,8 @@ int main()
             AddBlock(myBarChart,MyVec.at(i).first.c_str());
         }
     }
-    //AddBlock(myBarChart,"Left");
-    //AddBlock(myBarChart,"Alignment");
+    AddBlock(myBarChart,"Left");
+    AddBlock(myBarChart,"Alignment");
 
 	PrintHistogram(myBarChart);
 	DestroyHistogram(myBarChart);
@@ -55,7 +52,7 @@ void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
     size_t found=std::string::npos;
     char temp;
     std::string t;
-    for(unsigned int i=0;i<str.length();i++)//Выполняется проход по всей введенной строке
+    for(unsigned int i=0;i<str.length();)//Выполняется проход по всей введенной строке
     {
         if(str[i]>='A' && str[i]<='Z')//Если очередной обрабатываемый символ строки - заглавная латинская буква
         {
@@ -65,6 +62,7 @@ void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
             temp=str[i];
             //Далее, чтобы в дальнейшем проходе по строке не проверять, была ли уже записана найденная буква в вектор или нет, был реализован следующий алгоритм
             str.erase(str.begin()+i);//Найденная буква удаляется из строки
+
             //Далее в строке происходит поиск всех таких же букв
 
             do
@@ -78,6 +76,8 @@ void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
             }
             while(found!=std::string::npos);
         }
+        else{i++;}
+
     }
 
     for(unsigned int i=0;i<MyVec.size();i++)

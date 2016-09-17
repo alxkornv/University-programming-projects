@@ -2,6 +2,10 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <string>
+#include <utility>
+#include <vector>
+#include <algorithm>
 //Структура для описания гисторгаммы
 typedef struct{
 	char **BarNames;

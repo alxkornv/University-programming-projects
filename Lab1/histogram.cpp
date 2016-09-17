@@ -38,6 +38,8 @@ void PrintHistogram(const Histogram &historgam){
         //ƒалее с помощью setfill и std::left задаетс€ "заполнение" дл€ незан€тых мест и выравнивание по левому краю
 		cout <<setfill(' ')<<std::left<<historgam.BarNames[i] << '|';
 		//cout.setf
+		if(historgam.nMaxBar==0)
+            historgam.nMaxBar==1;
 		cout << setfill(historgam.chBlock) << setw(10*historgam.Bars[i]/historgam.nMaxBar) << "" << /*ends <<*/ endl;
 	}
 }
