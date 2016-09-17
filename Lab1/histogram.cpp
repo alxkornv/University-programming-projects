@@ -23,6 +23,7 @@ void AddBlock(Histogram &historgam, const char *strName){
 //-----------------------------------------------------------------
 // Функция PrintHistogram выводит гистограму на экран.
 void PrintHistogram(const Histogram &historgam){
+    //Для реализация выравнивания названий столбцов по левому краю были доюавлены следующие строки:
     int maxStrLen=strlen(historgam.BarNames[0]);
     for(int i=1; i<historgam.nBarsSize; i++)
     {
@@ -31,8 +32,10 @@ void PrintHistogram(const Histogram &historgam){
             maxStrLen=strlen(historgam.BarNames[i]);
         }
     }
+    //В результате работы цикла находится длина максимального названия столбца
 	for(int i=0; i<historgam.nBarsSize; i++){
-        std::cout.width(maxStrLen);
+        std::cout.width(maxStrLen);//задается минимальное число выводимых символов(оно же максимальная длина названия столбца)
+        //Далее с помощью setfill и std::left задается "заполнение" для незанятых мест и выравнивание по левому краю
 		cout <<setfill(' ')<<std::left<<historgam.BarNames[i] << '|';
 		//cout.setf
 		cout << setfill(historgam.chBlock) << setw(10*historgam.Bars[i]/historgam.nMaxBar) << "" << /*ends <<*/ endl;
@@ -77,7 +80,3 @@ void AddBar(Histogram &historgam, const char *strName){
 	historgam.Bars = newBars;
 }
 
-void SortByVal (Histogram &historgam, bool bAscending )
-{
-    /*Создать вектор пар, записать в него значения из структуры использовать сорт. старым полям присвоить новые значения из отсортированного вектора*/
-}
