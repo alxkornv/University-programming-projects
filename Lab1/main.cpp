@@ -1,8 +1,8 @@
 #include "histogram.h"
 
-void lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);//Г”ГіГ­ГЄГ¶ГЁГї Г±ГЎГ®Г°Г  Г¤Г Г­Г­Г»Гµ Г¤Г«Гї ГЈГЁГ±ГІГ®ГЈГ°Г Г¬Г¬Г»
-void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec,bool bAscending=true);//Г”ГіГ­ГЄГ¶ГЁГї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г¤Г Г­Г­Г»Гµ
-//Г‚Г±ГЇГ®Г¬Г®ГЈГ ГІГҐГ«ГјГ­Г»ГҐ ГґГіГ­ГЄГ¶ГЁГЁ Г¤Г«Гї Г°Г ГЎГ®ГІГ» std::sort
+bool lab1task(std::string,std::vector<std::pair<std::string,int>> &MyVec);//Функция сбора данных для гистограммы
+void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec,bool bAscending=true);//Функция сортировки данных
+//Вспомогательные функции для работы std::sort
 bool MyAscCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2);
 bool MyDesCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2);
 int main()
@@ -19,18 +19,22 @@ int main()
 	Histogram myBarChart;
     std::string str;
     std::cout<<"Enter string >> ";
-    std::cin>>str;
+    getline(std::cin,str);
     std::cout<<std::endl;
-    std::vector<std::pair<std::string,int>> MyVec;//Г„Г«Гї ГіГ¤Г®ГЎГ±ГІГўГ  ГµГ°Г Г­ГҐГ­ГЁГї ГЁ Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г¤Г Г­Г­Г­Г»Гµ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГІГ±Гї ГўГҐГЄГІГ®Г° ГЇГ Г°
-    //ГЉГ Г¦Г¤Г Гї ГЇГ Г°Г  Г±Г®Г±ГІГ®ГЁГІ ГЁГ§ Г±ГІГ°Г®ГЄГЁ ГЁ Г¶ГҐГ«Г®ГЈГ® Г·ГЁГ±Г«Г  - Г­Г Г§ГўГ Г­ГЁГї Г®Г·ГҐГ°ГҐГ¤Г­Г®ГЈГ® Г±ГІГ®Г«ГЎГ¶Г  ГЁ Г°Г Г§Г¬ГҐГ°Г  Г±ГІГ®Г«ГЎГ¶Г  Г±Г®Г®ГІГўГҐГІГ±ГўГҐГ­Г­Г®
-
-    lab1task(str,MyVec);
-
+    std::vector<std::pair<std::string,int>> MyVec;//Для удобства хранения и сортировки даннных используется вектор пар
+    //Каждая пара состоит из строки и целого числа - названия очередного столбца и размера столбца соответсвенно
+    bool flag;
+    flag=lab1task(str,MyVec);
+    if(!flag)
+    {
+        std::cout<<"No High Register Latin Symbols";
+        return 1;
+    }
     MyVecSort(MyVec,false);
 
 	InitHistogram(myBarChart);
 
-	//Г‡Г ГЇГ®Г­ГҐГ­ГЁГҐ ГЇГ®Г«ГҐГ© Г±ГІГ°ГіГЄГІГіГ°Г» ГЈГ¬Г±ГІГ®ГЈГ°Г Г¬Г¬ГҐГ°Г 
+	//Запонение полей структуры гмстограммера
     for(unsigned int i=0;i<MyVec.size();i++)
     {
         for(int j=0;j<MyVec.at(i).second;j++)
@@ -38,8 +42,8 @@ int main()
             AddBlock(myBarChart,MyVec.at(i).first.c_str());
         }
     }
-    AddBlock(myBarChart,"Left");
-    AddBlock(myBarChart,"Alignment");
+   //AddBlock(myBarChart,"Left");
+    //AddBlock(myBarChart,"Alignment");
 
 	PrintHistogram(myBarChart);
 	DestroyHistogram(myBarChart);
@@ -47,31 +51,33 @@ int main()
 	return 0;
 }
 
-void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
+bool lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
 {
+    bool flag=false;
     size_t found=std::string::npos;
     char temp;
     std::string t;
-    for(unsigned int i=0;i<str.length();)//Г‚Г»ГЇГ®Г«Г­ГїГҐГІГ±Гї ГЇГ°Г®ГµГ®Г¤ ГЇГ® ГўГ±ГҐГ© ГўГўГҐГ¤ГҐГ­Г­Г®Г© Г±ГІГ°Г®ГЄГҐ
+    for(unsigned int i=0;i<str.length();)//Выполняется проход по всей введенной строке
     {
-        if(str[i]>='A' && str[i]<='Z')//Г…Г±Г«ГЁ Г®Г·ГҐГ°ГҐГ¤Г­Г®Г© Г®ГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГ¬Г»Г© Г±ГЁГ¬ГўГ®Г« Г±ГІГ°Г®ГЄГЁ - Г§Г ГЈГ«Г ГўГ­Г Гї Г«Г ГІГЁГ­Г±ГЄГ Гї ГЎГіГЄГўГ 
+        if(str[i]>='A' && str[i]<='Z')//Если очередной обрабатываемый символ строки - заглавная латинская буква
         {
+            flag=true;
             t=str[i];
-            MyVec.push_back(std::make_pair(t,1));//Г’Г® Гў ГўГҐГЄГІГ®Г° Г¤Г®ГЎГ ГўГ«ГїГҐГІГ±Гї Г®Г·ГҐГ°ГҐГ¤Г­Г Гї ГЇГ Г°Г 
-            //Г‚ ГЇГҐГ°ГўГ®ГҐ ГЇГ®Г«ГҐ ГЇГ Г°Г» Г§Г Г­Г®Г±ГЁГІГ±Гї Г±Г Г¬Г  ГЎГіГЄГўГ , ГўГ® ГўГІГ®Г°Г®ГҐ - 1
+            MyVec.push_back(std::make_pair(t,1));//То в вектор добавляется очередная пара
+            //В первое поле пары заносится сама буква, во второе - 1
             temp=str[i];
-            //Г„Г Г«ГҐГҐ, Г·ГІГ®ГЎГ» Гў Г¤Г Г«ГјГ­ГҐГ©ГёГҐГ¬ ГЇГ°Г®ГµГ®Г¤ГҐ ГЇГ® Г±ГІГ°Г®ГЄГҐ Г­ГҐ ГЇГ°Г®ГўГҐГ°ГїГІГј, ГЎГ»Г«Г  Г«ГЁ ГіГ¦ГҐ Г§Г ГЇГЁГ±Г Г­Г  Г­Г Г©Г¤ГҐГ­Г­Г Гї ГЎГіГЄГўГ  Гў ГўГҐГЄГІГ®Г° ГЁГ«ГЁ Г­ГҐГІ, ГЎГ»Г« Г°ГҐГ Г«ГЁГ§Г®ГўГ Г­ Г±Г«ГҐГ¤ГіГѕГ№ГЁГ© Г Г«ГЈГ®Г°ГЁГІГ¬
-            str.erase(str.begin()+i);//ГЌГ Г©Г¤ГҐГ­Г­Г Гї ГЎГіГЄГўГ  ГіГ¤Г Г«ГїГҐГІГ±Гї ГЁГ§ Г±ГІГ°Г®ГЄГЁ
+            //Далее, чтобы в дальнейшем проходе по строке не проверять, была ли уже записана найденная буква в вектор или нет, был реализован следующий алгоритм
+            str.erase(str.begin()+i);//Найденная буква удаляется из строки
 
-            //Г„Г Г«ГҐГҐ Гў Г±ГІГ°Г®ГЄГҐ ГЇГ°Г®ГЁГ±ГµГ®Г¤ГЁГІ ГЇГ®ГЁГ±ГЄ ГўГ±ГҐГµ ГІГ ГЄГЁГµ Г¦ГҐ ГЎГіГЄГў
+            //Далее в строке происходит поиск всех таких же букв
 
             do
             {
                 found=str.find(temp);
-                if(found!=std::string::npos)//Г…Г±Г«ГЁ ГІГ ГЄГЁГҐ ГЎГіГЄГўГ» Г­Г ГµГ®Г¤ГЁГ±Гї
+                if(found!=std::string::npos)//Если такие буквы находися
                 {
-                    MyVec.back().second++;//Г’Г® Г±Г·ГҐГІГ·ГЁГЄ Гў ГЇГ Г°ГҐ ГіГўГҐГ«ГЁГ·ГЁГўГ ГҐГІГ±Гї
-                    str.erase(str.begin()+found);//Г€ Г­Г Г©Г¤ГҐГ­Г­Г Гї ГЎГіГЄГўГ  ГіГ¤Г Г«ГїГҐГІГ±Гї
+                    MyVec.back().second++;//То счетчик в паре увеличивается
+                    str.erase(str.begin()+found);//И найденная буква удаляется
                 }
             }
             while(found!=std::string::npos);
@@ -85,6 +91,7 @@ void lab1task (std::string str,std::vector<std::pair<std::string,int>> &MyVec)
         std::cout<<MyVec.at(i).first<<' '<<MyVec.at(i).second<<std::endl;
     }
     std::cout<<std::endl;
+    return flag;
 }
 bool MyAscCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2)
 {
@@ -98,9 +105,9 @@ bool MyDesCompare(std::pair<std::string,int> p1, std::pair<std::string,int> p2)
 
 void MyVecSort(std::vector<std::pair<std::string,int>> &MyVec,bool bAscending)
 {
-    //Г¤Г«Гї Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ Г¤Г Г­Г­Г»Гµ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГІГ±Гї ГґГіГ­ГЄГ¶ГЁГї std::sort
+    //для сортировки данных используется функция std::sort
     if(!bAscending)
-    std::sort(MyVec.begin(),MyVec.end(),MyDesCompare);
-        else
-    std::sort(MyVec.begin(),MyVec.end(),MyAscCompare);
+        std::sort(MyVec.begin(),MyVec.end(),MyDesCompare);
+    else
+        std::sort(MyVec.begin(),MyVec.end(),MyAscCompare);
 }

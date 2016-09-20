@@ -25,6 +25,11 @@ void AddBlock(Histogram &historgam, const char *strName){
 void PrintHistogram(const Histogram &historgam){
     //Для реализация выравнивания названий столбцов по левому краю были доюавлены следующие строки:
     int maxStrLen=strlen(historgam.BarNames[0]);
+    int myMaxBar=historgam.nMaxBar;
+    if(myMaxBar==0)
+    {
+        myMaxBar=1;
+    }
     for(int i=1; i<historgam.nBarsSize; i++)
     {
         if(strlen(historgam.BarNames[i])>maxStrLen)
@@ -32,15 +37,16 @@ void PrintHistogram(const Histogram &historgam){
             maxStrLen=strlen(historgam.BarNames[i]);
         }
     }
+
     //В результате работы цикла находится длина максимального названия столбца
 	for(int i=0; i<historgam.nBarsSize; i++){
         std::cout.width(maxStrLen);//задается минимальное число выводимых символов(оно же максимальная длина названия столбца)
         //Далее с помощью setfill и std::left задается "заполнение" для незанятых мест и выравнивание по левому краю
 		cout <<setfill(' ')<<std::left<<historgam.BarNames[i] << '|';
 		//cout.setf
-		if(historgam.nMaxBar==0)
-            historgam.nMaxBar==1;
-		cout << setfill(historgam.chBlock) << setw(10*historgam.Bars[i]/historgam.nMaxBar) << "" << /*ends <<*/ endl;
+
+
+		cout << setfill(historgam.chBlock) << setw(10*historgam.Bars[i]/myMaxBar) << "" << /*ends <<*/ endl;
 	}
 }
 
