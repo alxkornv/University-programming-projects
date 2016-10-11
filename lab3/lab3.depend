@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1476172762 source:/media/alex/LINUXFILES/proj/lab3/main.cpp
+	<iostream>
+	<array>
+	<iostream>
+
