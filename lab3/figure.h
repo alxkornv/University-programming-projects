@@ -15,6 +15,7 @@ public:
 	virtual void create_figure() = 0;
 	virtual void move_figure(double,double) = 0;
 	virtual void rotate_figure(double) = 0;
+	virtual void move_n_rotate(double,double,double)=0;
 
 private:
 protected:
@@ -31,6 +32,7 @@ public:
 	void create_figure();
 	void move_figure(double,double);
 	void rotate_figure(double);
+	void move_n_rotate(double,double,double);
     friend std::ostream& operator<<(std::ostream& os,const circle& cr);
 
 private:
@@ -45,12 +47,18 @@ public:
 	~triangle();
 
 	void create_figure();
-	void create_figure(double,double , double );
+	void create_figure(double,double ,double,double,double ,double );
 	void move_figure(double,double);
 	void rotate_figure(double);
+	void move_n_rotate(double,double,double);
+	void calc_center();
+	void calc_len();
+	friend std::ostream& operator<<(std::ostream& os,const triangle& tr);
 private:
-	std::pair<int,int> center;
-	std::vector <std::pair<int,int>> vertices;
+    std::pair<double,double> center;
+
+	std::vector <std::pair<double,double>> vertices;
+	double l1,l2,l3;
 };
 
 
