@@ -17,5 +17,13 @@ int main()
     c1.create_figure();
     c1.move_n_rotate(1,2,3.14);
     cout<<c1;
+
+    triangle tr2;
+    tr2.create_figure();
+    cout<<tr2;
+
+    rectangle rect1;
+    rect1.create_figure();
+    cout<<rect1;
     return 0;
 }

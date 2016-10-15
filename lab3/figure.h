@@ -43,8 +43,8 @@ private:
 class triangle : public figure
 {
 public:
-	triangle();
-	~triangle();
+	triangle(){};
+	~triangle(){};
 
 	void create_figure();
 	void create_figure(double,double ,double,double,double ,double );
@@ -53,7 +53,7 @@ public:
 	void move_n_rotate(double,double,double);
 	void calc_center();
 	void calc_len();
-	friend std::ostream& operator<<(std::ostream& os,const triangle& tr);
+	friend std::ostream& operator<<(std::ostream& os, triangle& tr);
 private:
     std::pair<double,double> center;
 
@@ -66,15 +66,21 @@ private:
 class rectangle : public figure
 {
 public:
-	rectangle();
-	~rectangle();
+	rectangle(){};
+	~rectangle(){};
 
 	void create_figure();
-	void move_figure();
-	void rotate_figure();
+	void create_figure(double,double,double,double,double,double,double,double);
+	void move_figure(double,double);
+	void rotate_figure(double);
+	void move_n_rotate(double,double,double);
+	void calc_len();
+	void calc_center();
+	friend std::ostream& operator<<(std::ostream& os, rectangle& tr);
 private:
-	std::pair<int,int> center;
-	std::vector <std::pair<int,int>> vertices;
+    double l1,l2,l3,l4;
+	std::pair<double,double> center;
+	std::vector <std::pair<double,double>> vertices;
 };
 
 
