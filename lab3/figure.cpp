@@ -45,6 +45,8 @@ void triangle::create_figure()
     vertices.push_back(std::make_pair(0,0));
     vertices.push_back(std::make_pair(0,1));
     vertices.push_back(std::make_pair(1,0));
+    calc_center();
+    calc_len();
 }
 
 void triangle::create_figure(double x1,double y1, double x2, double y2, double x3, double y3)
@@ -53,6 +55,8 @@ void triangle::create_figure(double x1,double y1, double x2, double y2, double x
     vertices.push_back(std::make_pair(x1,y1));
     vertices.push_back(std::make_pair(x2,y2));
     vertices.push_back(std::make_pair(x3,y3));
+    calc_center();
+    calc_len();
 }
 
 void triangle::move_figure(double x1, double y1)
@@ -62,6 +66,8 @@ void triangle::move_figure(double x1, double y1)
         vertices[i].first+=x1;
         vertices[i].first+=y1;
     }
+    calc_center();
+    calc_len();
 }
 void triangle::rotate_figure(double angle)
 {
@@ -71,12 +77,16 @@ void triangle::rotate_figure(double angle)
         vertices[i].second=vertices[i].first*sin(angle)+vertices[i].second*cos(angle);
 
     }
+    calc_center();
+    calc_len();
 
 }
 void triangle::move_n_rotate(double x, double y, double angle)
 {
     move_figure(x,y);
     rotate_figure(angle);
+    calc_center();
+    calc_len();
 }
 
 
@@ -92,10 +102,9 @@ void triangle::calc_len()
     l2=sqrt(pow((vertices[2].first-vertices[1].first),2)+pow((vertices[2].second-vertices[1].second),2));
     l3=sqrt(pow((vertices[2].first-vertices[0].first),2)+pow((vertices[2].second-vertices[0].second),2));
 }
-std::ostream& operator<<(std::ostream& os, triangle& tr)
+std::ostream& operator<<(std::ostream& os, const triangle& tr)
 {
-    tr.calc_center();
-    tr.calc_len();
+
     os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
     os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
     os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;
@@ -113,6 +122,8 @@ void rectangle::create_figure()
     vertices.push_back(std::make_pair(0,1));
     vertices.push_back(std::make_pair(1,1));
     vertices.push_back(std::make_pair(1,0));
+    calc_center();
+    calc_len();
 }
 
 void rectangle::create_figure(double x1,double y1, double x2, double y2, double x3, double y3, double x4, double y4 )
@@ -123,6 +134,8 @@ void rectangle::create_figure(double x1,double y1, double x2, double y2, double 
     vertices.push_back(std::make_pair(x2,y2));
     vertices.push_back(std::make_pair(x3,y3));
     vertices.push_back(std::make_pair(x4,y4));
+    calc_center();
+    calc_len();
 }
 
 void rectangle::move_figure(double x1, double y1)
@@ -132,6 +145,8 @@ void rectangle::move_figure(double x1, double y1)
         vertices[i].first+=x1;
         vertices[i].first+=y1;
     }
+    calc_center();
+    calc_len();
 }
 
 void rectangle::rotate_figure(double angle)
@@ -142,13 +157,16 @@ void rectangle::rotate_figure(double angle)
         vertices[i].second=vertices[i].first*sin(angle)+vertices[i].second*cos(angle);
 
     }
-
+    calc_center();
+    calc_len();
 }
 
 void rectangle::move_n_rotate(double x, double y, double angle)
 {
     move_figure(x,y);
     rotate_figure(angle);
+    calc_center();
+    calc_len();
 }
 
 void rectangle::calc_center()
@@ -166,10 +184,9 @@ void rectangle::calc_len()
 }
 
 
-std::ostream& operator<<(std::ostream& os, rectangle& tr)
+std::ostream& operator<<(std::ostream& os,const rectangle& tr)
 {
-    tr.calc_center();
-    tr.calc_len();
+
     os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
     os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
     os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;

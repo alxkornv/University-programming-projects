@@ -53,7 +53,7 @@ public:
 	void move_n_rotate(double,double,double);
 	void calc_center();
 	void calc_len();
-	friend std::ostream& operator<<(std::ostream& os, triangle& tr);
+	friend std::ostream& operator<<(std::ostream& os,const triangle& tr);
 private:
     std::pair<double,double> center;
 
@@ -76,7 +76,7 @@ public:
 	void move_n_rotate(double,double,double);
 	void calc_len();
 	void calc_center();
-	friend std::ostream& operator<<(std::ostream& os, rectangle& tr);
+	friend std::ostream& operator<<(std::ostream& os,const rectangle& tr);
 private:
     double l1,l2,l3,l4;
 	std::pair<double,double> center;
