@@ -7,24 +7,29 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
-void lab2_12(string ,std::vector<std::pair<int,int>> &);
+int lab2_12(string ,std::vector<std::pair<int,int>> &);
 void lab2_7(string ,int);
 int main()
 {
     std::vector<std::pair<int,int>> vec;
 
-    string str="999 999h lkj 12 j";
+    string str="33 magpies flew over the 33 roofs on September 13";
     //cout<<"Enter string"<<endl;
     //std::getline(cin,str);
+    cout<<str;
 
-    lab2_12(str,vec);
+    if(lab2_12(str,vec)==1)
+    {
+        cout<<"No numbers"<<endl;
+        return 1;
+    }
     std::sort(vec.begin(),vec.end(),[](std::pair<int,int> p1, std::pair<int,int> p2){return p1.first<p2.first;});
     int num=vec.at(0).first;
     lab2_7(str,num);
     return 0;
 }
 
-void lab2_12(string str,std::vector<std::pair<int,int>> &vec)
+int lab2_12(string str,std::vector<std::pair<int,int>> &vec)
 {
     int num=0;
     bool flag=false;
@@ -77,7 +82,7 @@ void lab2_12(string str,std::vector<std::pair<int,int>> &vec)
                 num++;
                 s1=std::to_string(num);
                 str.replace(str.begin()+i,str.begin()+i+temp_st.size(),s1);
-                cout<<str<<endl;
+                //cout<<str<<endl;
                 i+=s1.size()-1;
 
             }
@@ -89,10 +94,11 @@ void lab2_12(string str,std::vector<std::pair<int,int>> &vec)
     }
 
     }
+    else{return 1;}
     cout<<endl;
 
      cout<<str<<endl;
-
+    return 0;
 }
 
 void lab2_7(string str, int num)
