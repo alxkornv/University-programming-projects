@@ -25,7 +25,7 @@ protected:
 class circle : public figure
 {
 public:
-	circle(){};
+	circle(){init=false;};
 	~circle(){};
 
 	void create_figure(double,double , double );
@@ -37,6 +37,7 @@ public:
 
 private:
 	std::pair<double,double> center;
+	bool init;
 	double radius;
 };
 
@@ -71,6 +72,7 @@ public:
 
 	void create_figure();
 	void create_figure(double,double,double,double,double,double,double,double);
+	void cretae_rect(double,double,double,double);
 	void move_figure(double,double);
 	void rotate_figure(double);
 	void move_n_rotate(double,double,double);

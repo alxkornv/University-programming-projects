@@ -5,7 +5,7 @@
 int main()
 {
 
-    circle c1;
+    /*circle c1;
     c1.create_figure();
     std::cout<<c1;
     c1.move_figure(1,2);
@@ -18,10 +18,12 @@ int main()
 
     triangle tr2;
     tr2.create_figure();
-    std::cout<<tr2;
-
+    std::cout<<tr2;*/
+    circle crc1;
+    triangle trg1;
     rectangle rect1;
-    rect1.create_figure();
+    std::cout<<crc1;
+    std::cout<<trg1;
     std::cout<<rect1;
 
     Oscil a,b,c;

@@ -5,6 +5,7 @@ void circle::create_figure(double x,double y, double rad)
 	center.first=x;
 	center.second=y;
 	radius = rad;
+	init=true;
 }
 
 void circle::create_figure()
@@ -12,12 +13,26 @@ void circle::create_figure()
 	center.first=0.0;
 	center.second=0.0;
 	radius = 1.0;
+	init=true;
 }
 
 std::ostream& operator<<(std::ostream& os,const circle& cr)
 {
-    os<<"Center: ("<<cr.center.first<<","<<cr.center.second<<")"<<std::endl<<"Radius: "<<cr.radius<<std::endl;
+    try
+    {
+    if(!cr.init)
+        {
+            throw(0);
+        }
+        else{
+        os<<"Center: ("<<cr.center.first<<","<<cr.center.second<<")"<<std::endl<<"Radius: "<<cr.radius<<std::endl;
+        }
 
+    }
+    catch(int param)
+    {
+        std::cout<<"Figure wasn't initialized"<<std::endl;
+    }
     return os;
 }
 
@@ -104,14 +119,25 @@ void triangle::calc_len()
 }
 std::ostream& operator<<(std::ostream& os, const triangle& tr)
 {
-
-    os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
-    os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
-    os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;
-    os<<"Center: ("<<tr.center.first<<","<<tr.center.second<<")"<<std::endl;
-    os<<"Length 1->2 = "<<tr.l1<<std::endl;
-    os<<"Length 2->3 = "<<tr.l2<<std::endl;
-    os<<"Length 1->3 = "<<tr.l3<<std::endl;
+    try{
+        if(tr.vertices.empty())
+        {
+            throw 0;
+        }
+        else{
+        os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
+        os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
+        os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;
+        os<<"Center: ("<<tr.center.first<<","<<tr.center.second<<")"<<std::endl;
+        os<<"Length 1->2 = "<<tr.l1<<std::endl;
+        os<<"Length 2->3 = "<<tr.l2<<std::endl;
+        os<<"Length 1->3 = "<<tr.l3<<std::endl;
+        }
+    }
+    catch(int param)
+    {
+        std::cout<<"Figure wasn't initialized"<<std::endl;
+    }
     return os;
 }
 
@@ -186,15 +212,24 @@ void rectangle::calc_len()
 
 std::ostream& operator<<(std::ostream& os,const rectangle& tr)
 {
-
-    os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
-    os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
-    os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;
-    os<<"(x4,y4) = ("<<tr.vertices[3].first<<","<<tr.vertices[3].second<<")"<<std::endl;
-    os<<"Center: ("<<tr.center.first<<","<<tr.center.second<<")"<<std::endl;
-    os<<"Length 1->2 = "<<tr.l1<<std::endl;
-    os<<"Length 2->3 = "<<tr.l2<<std::endl;
-    os<<"Length 3->4 = "<<tr.l3<<std::endl;
-    os<<"Length 1->4 = "<<tr.l4<<std::endl;
+    try{
+        if(tr.vertices.empty())
+        {
+            throw 0;
+        }
+        os<<"(x1,y1) = ("<<tr.vertices[0].first<<","<<tr.vertices[0].second<<")"<<std::endl;
+        os<<"(x2,y2) = ("<<tr.vertices[1].first<<","<<tr.vertices[1].second<<")"<<std::endl;
+        os<<"(x3,y3) = ("<<tr.vertices[2].first<<","<<tr.vertices[2].second<<")"<<std::endl;
+        os<<"(x4,y4) = ("<<tr.vertices[3].first<<","<<tr.vertices[3].second<<")"<<std::endl;
+        os<<"Center: ("<<tr.center.first<<","<<tr.center.second<<")"<<std::endl;
+        os<<"Length 1->2 = "<<tr.l1<<std::endl;
+        os<<"Length 2->3 = "<<tr.l2<<std::endl;
+        os<<"Length 3->4 = "<<tr.l3<<std::endl;
+        os<<"Length 1->4 = "<<tr.l4<<std::endl;
+    }
+    catch(int param)
+    {
+        std::cout<<"Figure wasn't initialized"<<std::endl;
+    }
     return os;
 }
