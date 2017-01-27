@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1485460626 source:e:\proj\kp1\main.cpp
+	<iostream>
+	"ModVec.h"
+
+1485455624 e:\proj\kp1\modvec.h
+	<iostream>
+	<cmath>
+	<stdlib.h>
+	<vector>
+	<stdio.h>
+
+1485460744 source:e:\proj\kp1\modvec.cpp
+	"ModVec.h"
+
