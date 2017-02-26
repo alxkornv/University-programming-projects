@@ -185,8 +185,7 @@ public:
 
 	}
 
-	Matrix RowReduce()
-	{
+	Matrix RowReduce(){
 	    numswaps=0;
 	    std::vector<std::vector<double>> mat;
 	    for(int i=0;i<rows;++i)
@@ -257,12 +256,21 @@ public:
                 row--;
             }
         }
+        for(int i=0;i<std::min(rows,cols);++i)
+        {
+            for(int j=i;j<mat[i].size();++j)
+            {
+                if(mat[i][i])
+                {
+                    mat[i][j]/=mat[i][i];
+                }
+            }
+        }
 
         return Matrix(rows,cols,mat);
 	}
 
-	friend int Rank(Matrix M)
-	{
+	friend int Rank(Matrix M){
         Matrix temp (M.rows,M.cols);
         temp = M.RowReduce();
         int rk=0;
@@ -280,8 +288,7 @@ public:
         return rk;
 	}
 
-	friend double Det(Matrix M)
-	{
+	friend double Det(Matrix M){
         Matrix temp (M.rows,M.cols);
         temp = M.RowReduce();
         double d=1.0;
@@ -300,6 +307,7 @@ public:
         }
 
 	}
+
 };
 
 
