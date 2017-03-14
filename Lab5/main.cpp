@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iterator>
 #include <locale>
+#include <exception>
 int RandomNumber()
 {
     return std::rand()%100;
@@ -14,6 +15,7 @@ int RandomNumber()
 
 std::vector<std::string> Split(std::string str)
 {
+
 
     std::istringstream iss(str);
     std::vector<std::string> vec;
@@ -50,14 +52,8 @@ bool IsPalindrome(std::string str)
     std::string newstr;
     newstr.resize(tempstr.size());
     std::reverse_copy(tempstr.begin(),tempstr.end(),newstr.begin());
-    if(tempstr == newstr)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (tempstr == newstr);
+   
 }
 
 bool AllPalindrome(std::vector<std::string> vec)
@@ -80,16 +76,32 @@ std::vector<int> RandVec20()
     return myvec;
 }
 
+double MeanSpeed(std::string str)
+{
+    int dist=15951;
+    int new_dist=std::stoi(str);
+    if((new_dist>dist) && (IsPalindrome(str)))
+    {
+        return (new_dist-dist)*(1.0)/2.0;
+    }
+    else
+    {
+        throw std::invalid_argument("new distance is wrong or its not a palindrome");
+    }
+
+}
+
 int main()
 {
 
-    /*std::srand ( unsigned ( std::time(0) ) );
+    std::srand ( unsigned ( std::time(0) ) );
     std::vector<int> newvec;
-    newvec=RandVec20();*/
-    //Was it a cat i saw
+    newvec=RandVec20();
 
     std::vector<std::string> vec = {"Was it a cat I saw","15951"};
     std::cout<<AllPalindrome(vec);
+    std::cout<<std::endl;
+    std::cout<<MeanSpeed("26962");
 
     return 0;
 }
