@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1492267219 source:/media/alex/LINUXFILES/proj/KPLAB2/main.cpp
+	"matrix.h"
+
+1492267972 /media/alex/LINUXFILES/proj/KPLAB2/matrix.h
+	<vector>
+	<cmath>
+	<iostream>
+	<string>
+	<fstream>
+	"amatrix.h"
+
+1489232749 /media/alex/LINUXFILES/proj/KPLAB2/amatrix.h
+	<armadillo>
+	<iostream>
+	<fstream>
+	<armadillo>
+	<cmath>
+
