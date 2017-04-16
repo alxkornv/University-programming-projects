@@ -331,13 +331,14 @@ public:
 
 	friend int Rank(Matrix M){
         Matrix temp (M.rows,M.cols);
-        temp = M.RowReduce();
+        temp = M.FGauss();
+        temp.print();
         int rk=0;
         for(int i=0;i<M.rows;++i)
         {
             for(int j=0;j<M.cols;++j)
             {
-                if (M.mtr[i][j]!=0)
+                if (temp.mtr[i][j]!=0)
                 {
                     rk++;
                     break;
@@ -499,7 +500,8 @@ public:
 
     Matrix SolAXb()
     {
-
+        int rankA, rankAb;
+        std::ofstream fout("output.txt");
         std::vector<int> freex;//индексы свободных переменных
         for(int i=0;i<cols-1;++i)
         {
@@ -515,6 +517,7 @@ public:
 
         std::vector<double> a(cols); //частное решение неоднородного
         Matrix mat(rows,cols,mtr);//ЗДЕСЬ РАСШИРЕННАЯ МАТРИЦА!
+        rankAb=Rank(mat);
         #if DEBUG
         std::cout<<"ISHODNAYA MATRICA"<<std::endl;
         mat.print();
@@ -532,7 +535,7 @@ public:
         }
         #if DEBUG
         std::cout<<"CHASTNOE RESHENIE"<< ' ';
-        for(int i=0;i<cols;++i)
+        for(int i=0;i<cols-1;++i)
         {
             std::cout<<a[i]<<' ';
         }
@@ -545,6 +548,13 @@ public:
             {
                 newmat[i][j]=mat[i][j];
             }
+        }
+        rankA=Rank(newmat);
+        if(rankA!=rankAb)
+        {
+            fout<<-1;
+            fout.close();
+            throw InvalidMatrixSize("No Solutions");
         }
         int newcols=cols-1;
          #if DEBUG
@@ -622,6 +632,17 @@ public:
         #endif // DEBUG
             tempans.clear();
         }
+        std::cout<<std::endl;
+        res.print();
+        fout<<newcols<<' '<<res.cols-1<<std::endl;
+        for(int i=0;i<res.rows;++i)
+        {
+            for(int j=0;j<res.cols;++j)
+            {
+                fout<<res[i][j]<<' ';
+            }
+            fout<<std::endl;
+        }
         return res;
     }
 
@@ -654,7 +675,35 @@ public:
     bool isSquare() const {
 		return (rows == cols);
 	}
-
+    void ReadAXb(std::string fname)
+    {
+        std::ifstream fin(fname);
+        mtr.clear();
+        int r;
+        int c;
+        fin>>r;
+        fin>>c;
+        c++;
+        rows = r;
+        cols = c;
+        mtr.resize(r);
+        for(int i=0;i<r;++i)
+        {
+            mtr[i].resize(c);
+        }
+        for(int i=0;i<r;++i)
+        {
+            for(int j=0;j<c-1;j++)
+            {
+                fin>>mtr[i][j];
+            }
+        }
+        for(int i=0;i<r;++i)
+        {
+            fin>>mtr[i][c-1];
+        }
+        fin.close();
+    }
 };
 
 class sqMatrix : public Matrix {

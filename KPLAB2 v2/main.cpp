@@ -156,7 +156,14 @@ int main()
         {0,0,5,10,0,15,0},
         {2,6,0,8,4,18,0}
     };
-    Matrix mat(4,7,m);
+    std::vector<vector<double>> m1=
+    {
+      {1,1,1,2},
+      {0,1,1,1},
+      {0,0,0,0},
+    };
+    Matrix mat(2,2);
+    mat.ReadAXb("input.txt");
     mat.SolAXb();
 
 	return 0;
