@@ -1,0 +1,9 @@
+8
+My suit is spades and my value is 2
+My suit is spades and my value is 3
+My suit is clubs and my value is 3
+My suit is clubs and my value is 6
+My suit is diamonds and my value is 10
+My suit is diamonds and my value is 13
+My suit is hearts and my value is 2
+My suit is hearts and my value is 14
