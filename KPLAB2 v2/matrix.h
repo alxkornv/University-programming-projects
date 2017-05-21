@@ -60,6 +60,22 @@ public:
 		return reason.c_str();
 	}
 };
+class InconsistentSystem : public std::exception {
+	std::string reason;
+
+public:
+	InconsistentSystem() :
+		reason("Inconsistent system")
+	{}
+
+	InconsistentSystem(std::string _reason) :
+		reason(_reason)
+	{}
+
+	const char* what() const throw() {
+		return reason.c_str();
+	}
+};
 class NotInvertibleMatrix : public std::exception {
 	const char* what() const throw() {
 		return "Matrix is not invertible";
@@ -136,7 +152,7 @@ public:
 		return *this;
 	}
 
-	Matrix& operator=(mat& sec){
+	/*Matrix& operator=(mat& sec){
 
 	    mtr.clear();
 	    rows=sec.n_rows;
@@ -152,7 +168,7 @@ public:
         }
 
         return *this;
-	}
+	}*/
 
 	Matrix operator+(const Matrix& sec) {
 		if(rows != sec.rows || cols != sec.cols) {
@@ -209,7 +225,7 @@ public:
 		for(int i = 0; i < rows; ++i) {
 			for(int k = 0; k < sec.cols; ++k) {
 				int j;
-				int sum = 0;
+				double sum = 0;
 				for(j = 0; j < sec.rows; ++j) {
 					sum += mtr[i][j] * sec.mtr[j][k];
 				}
@@ -221,17 +237,7 @@ public:
 
 	}
 
-	mat Amat(){
-        mat amtr(rows,cols,fill::zeros);
-        for(int i=0;i<rows;++i)
-        {
-            for(int k=0;k<cols;++k)
-            {
-                amtr.at(i,k)=mtr[i][k];
-            }
-        }
-        return amtr;
-	}
+
 
 	void addRow(std::vector<double> newRow) {
 		if(newRow.size() != mtr[0].size()) {
@@ -284,6 +290,7 @@ public:
 			mtr[i][col2] = tmp;
 		}
 	}
+	/*
 	Matrix RowReduce(){
 	    numswaps=0;
 	    std::vector<std::vector<double>> mat;
@@ -327,12 +334,12 @@ public:
         }
     }
         return Matrix(rows,cols,mat);
-	}
+	}*/
 
 	friend int Rank(Matrix M){
         Matrix temp (M.rows,M.cols);
         temp = M.FGauss();
-        temp.print();
+        //temp.print();
         int rk=0;
         for(int i=0;i<M.rows;++i)
         {
@@ -347,107 +354,8 @@ public:
         }
         return rk;
 	}
-    Matrix Gauss()
-    {
-            numswaps=0;
-	    std::vector<std::vector<double>> mat;
-	    for(int i=0;i<rows;++i)
-        {
-            mat.push_back(mtr[i]);
-        }
-
-	int n = (int) mat.size();
-	int m = (int) mat[0].size() - 1;
-
-	std::vector<int> where (m, -1);
-	for (int col=0, row=0; col<m && row<n; ++col) {
-		int sel = row;
-		for (int i=row; i<n; ++i)
-			if (abs (mat[i][col]) > abs (mat[sel][col]))
-				sel = i;
-		if (abs (mat[sel][col]) < EPS)
-			continue;
-		for (int i=col; i<=m; ++i)
-			std::swap (mat[sel][i], mat[row][i]);
-		where[col] = row;
-		/*std::cout<<std::endl;
-        PrintMatrix(mat);
-        std::cout<<std::endl;*/
-		for (int i=0; i<n; ++i)
-			if (i != row) {
-				double c = mat[i][col] / mat[row][col];
-				for (int j=col; j<=m; ++j)
-					mat[i][j] -= mat[row][j] * c;
-			}
-        /*std::cout<<std::endl;
-        PrintMatrix(mat);
-        std::cout<<std::endl;*/
-		++row;
-	}
-   // PrintMatrix(a);
-        for(int i=0;i<rows;++i)
-        {
-            for(int j=0;j<cols;++j)
-            {
-                if(fabs(mat[i][j])<EPSILON)
-                {
-                    mat[i][j]=0.0;
-                }
-            }
-        }
-        for(int i=0;i<std::min(rows,cols);++i)
-        {
-            if(mat[i][i])
-            {
-                for(int j=0;j<cols;++j)
-                {
-                    mat[i][j]/=mat[i][i];
-                }
-            }
-        }
 
 
-        return Matrix(rows,cols,mat);
-    }
-
-    int GaussInt()
-    {
-        int rowSwaps = 0;
-	for(int l1 = 0; l1 < rows - 1; ++l1) {
-		int maxN = l1;
-		double maxValue = mtr[l1][l1];
-
-		for(int l2 = l1 + 1; l2 < rows; ++l2) {
-			if(mtr[l2][l2] > maxValue) {
-				maxN = l2;
-				maxValue = mtr[l2][l2];
-			}
-		}
-
-		if(maxN > l1) {
-
-			swapRows(l1, maxN);
-			++rowSwaps;
-		} else {
-
-			if(maxValue == 0) {
-
-				std::cout << "error";
-			}
-		}
-
-
-		for(int l2 = l1 + 1; l2 < rows; ++l2) {
-			double k = mtr[l2][l1]/mtr[l1][l1];
-			mtr[l2][l1] = 0.0;
-			for(int c = l1 + 1; c < cols; ++c) {
-				mtr[l2][c] -= mtr[l1][c] * k;
-			}
-		}
-	}
-
-	return rowSwaps;
-    }
     Matrix FGauss()
     {
        Matrix res(rows, cols, mtr);
@@ -479,7 +387,7 @@ public:
 		for(int i = 0; i < cols; ++i) {
 			res[rix][i] /= llv;
 		}
-
+        //res.print();
 		for(iix = 0; iix < rc; ++iix) {
 			if(iix != rix) {
 				lv = res[iix][lead];
@@ -495,6 +403,7 @@ public:
 		}
 		lead++;
 	}
+
 	return res;
     }
 
@@ -519,7 +428,7 @@ public:
         Matrix mat(rows,cols,mtr);//ЗДЕСЬ РАСШИРЕННАЯ МАТРИЦА!
         rankAb=Rank(mat);
         #if DEBUG
-        std::cout<<"ISHODNAYA MATRICA"<<std::endl;
+        std::cout<<"ISHODNAYA RASHIRENNAYA MATRICA"<<std::endl;
         mat.print();
          std::cout<<std::endl;
         #endif
@@ -529,18 +438,7 @@ public:
         mat.print();
         std::cout<<std::endl;
         #endif
-        for(int i=0;i<rows;++i)
-        {
-            a[i]=mat[i][cols-1];
-        }
-        #if DEBUG
-        std::cout<<"CHASTNOE RESHENIE"<< ' ';
-        for(int i=0;i<cols-1;++i)
-        {
-            std::cout<<a[i]<<' ';
-        }
-        std::cout<<std::endl;
-        #endif
+
         Matrix newmat(rows,cols-1);//ЗДЕСЬ МАТРИЦА БЕЗ СТОЛБЦА СВОБОДНЫХ ЧЛЕНОВ
         for(int i=0;i<rows;++i)
         {
@@ -554,8 +452,23 @@ public:
         {
             fout<<-1;
             fout.close();
-            throw InvalidMatrixSize("No Solutions");
+            throw InconsistentSystem("No Solutions");
         }
+
+
+        for(int i=0;i<rows;++i)
+        {
+            a[i]=mat[i][cols-1];
+        }
+        #if DEBUG
+        std::cout<<"CHASTNOE RESHENIE"<< ' ';
+        for(int i=0;i<cols-1;++i)
+        {
+            std::cout<<a[i]<<' ';
+        }
+        std::cout<<std::endl;
+        #endif
+
         int newcols=cols-1;
          #if DEBUG
         std::cout<<"NEWMAT"<<std::endl;
@@ -705,7 +618,7 @@ public:
         fin.close();
     }
 };
-
+/*
 class sqMatrix : public Matrix {
 private:
 
@@ -765,7 +678,7 @@ sqMatrix sqMatrix::Inverse() {
 	invert.print();
 	std::cout << std::endl;*/
 
-
+/*
 	sqMatrix res(rows);
 	for(int i = 0; i < rows; ++i) {
 		for(int j = 0; j < cols; ++j) {
@@ -784,5 +697,5 @@ sqMatrix sqMatrix::Inverse() {
 
 	return res;
 }
-
+*/
 #endif // MATRIX_H_INCLUDED
